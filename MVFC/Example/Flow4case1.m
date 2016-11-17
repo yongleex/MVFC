@@ -54,9 +54,9 @@ UO_OutierCount = [  L_udc(OutlierIndex_Truth,OutlierIndex_CON),L_odc(OutlierInde
     L_udc(OutlierIndex_Truth,OutlierIndex_VFC),L_odc(OutlierIndex_Truth,OutlierIndex_VFC);
     L_udc(OutlierIndex_Truth,OutlierIndex_MVFC),L_odc(OutlierIndex_Truth,OutlierIndex_MVFC);];
 fprintf('The Ground truth of Outlier Number:%d\n',sum(~OutlierIndex_Truth(:)))
-fprintf('Overdetected Number:%d(CON);%d(VTM);%d(FADV);%d(VFC);%d(MVFC)\n',L_odc(OutlierIndex_Truth,OutlierIndex_CON),...
+fprintf('Overdetected Number:%d(NMT);%d(VTM);%d(FADV);%d(VFC);%d(MVFC)\n',L_odc(OutlierIndex_Truth,OutlierIndex_CON),...
     L_odc(OutlierIndex_Truth,OutlierIndex_VTMedian),L_odc(OutlierIndex_Truth,OutlierIndex_FADV),L_odc(OutlierIndex_Truth,OutlierIndex_VFC),L_odc(OutlierIndex_Truth,OutlierIndex_MVFC));
-fprintf('Undetected   Number:%d(CON);%d(VTM);%d(FADV);%d(VFC);%d(MVFC)\n',L_udc(OutlierIndex_Truth,OutlierIndex_CON),...
+fprintf('Undetected   Number:%d(NMT);%d(VTM);%d(FADV);%d(VFC);%d(MVFC)\n',L_udc(OutlierIndex_Truth,OutlierIndex_CON),...
     L_udc(OutlierIndex_Truth,OutlierIndex_VTMedian),L_udc(OutlierIndex_Truth,OutlierIndex_FADV),L_udc(OutlierIndex_Truth,OutlierIndex_VFC),L_udc(OutlierIndex_Truth,OutlierIndex_MVFC));
 
 
@@ -95,17 +95,17 @@ figure;scrsz = get(0,'ScreenSize');set(gcf,'Position',scrsz);
 % subplot(2,2,1);quiver(x,y,u,v);title('Original flow with outliers');
 % hold on; contour(x,y,sqrt(u.^2+v.^2),[0.4 1 2 3 4 5 6 7 8],'b-');
 % text(0,-0.1,str1);xlim([-0.05,1.05]);ylim([-0.25,1.05]);box on;set(gca,'ytick',[]);set(gca,'xtick',[]);
-subplot(2,2,1);quiver(x,y,Vx_CON,Vy_CON);title('CON');
+subplot(2,2,1);quiver(x,y,Vx_CON,Vy_CON);title('NMT');
 hold on; contour(x,y,sqrt(Vx_CON.^2+Vy_CON.^2),[0.4 1 2 3 4 5 6 7 8],'b-');
 text(0,-0.1,str2);xlim([-0.05,1.05]);ylim([-0.25,1.05]);box on;set(gca,'ytick',[]);set(gca,'xtick',[]);
 subplot(2,2,2);quiver(x,y,Vx_DCT,Vy_DCT);title('DCT-PLS');
 hold on; contour(x,y,sqrt(Vx_DCT.^2+Vy_DCT.^2),[0.4 1 2 3 4 5 6 7 8],'b-');
 text(0,-0.1,str3);xlim([-0.05,1.05]);ylim([-0.25,1.05]);box on;set(gca,'ytick',[]);set(gca,'xtick',[]);
-subplot(2,2,3);quiver(x,y,Vx_VFC,Vy_VFC);title('VFC(Ours)');
+subplot(2,2,3);quiver(x,y,Vx_VFC,Vy_VFC);title('VFC');
 hold on; contour(x,y,sqrt(Vx_VFC.^2+Vy_VFC.^2),[0.4 1 2 3 4 5 6 7 8],'b-');
 text(0,-0.2,str4);
 text(0,-0.1,'Note that: the contour plot in paper is done using Origin 9.1');xlim([-0.05,1.05]);ylim([-0.25,1.05]);box on;set(gca,'ytick',[]);set(gca,'xtick',[]);
-subplot(2,2,4);quiver(x,y,Vx_MVFC,Vy_MVFC);title('MVFC');
+subplot(2,2,4);quiver(x,y,Vx_MVFC,Vy_MVFC);title('MVFC(Ours)');
 hold on; contour(x,y,sqrt(Vx_MVFC.^2+Vy_MVFC.^2),[0.4 1 2 3 4 5 6 7 8],'b-');
 text(0,-0.2,str5);
 text(0,-0.1,'Note that: the contour plot in paper is done using Origin 9.1');xlim([-0.05,1.05]);ylim([-0.25,1.05]);box on;set(gca,'ytick',[]);set(gca,'xtick',[]);
@@ -122,7 +122,7 @@ plot(w,(turb_energy_spectrum(Vx_DCT,Vy_DCT)+1),'--s','LineWidth',2,'Color',[0.49
 plot(w,(turb_energy_spectrum(Vx_VFC,Vy_VFC)+1),'-o','LineWidth',2,'Color',[0.47,0.67,0.19] , 'MarkerSize',8, 'MarkerEdgeColor','k', 'MarkerFaceColor',[0.47,0.67,0.19]);%Ours flow
 plot(w,(turb_energy_spectrum(Vx_MVFC,Vy_MVFC)+1),'-h','LineWidth',2,'Color',[0.93,0.69,0.13], 'MarkerSize',6, 'MarkerEdgeColor','k', 'MarkerFaceColor',[0.93,0.69,0.13]);%conventional methods without smoothness
 
-H11 = legend('\fontsize{14}Ground truth','\fontsize{14}Flow with Outliers','\fontsize{14}CON(Without smooth)','\fontsize{14}CON(Smoothed)','\fontsize{14}DCT-PLS','\fontsize{14}VFC','\fontsize{14}MVFC');
+H11 = legend('\fontsize{14}Ground truth','\fontsize{14}Flow with Outliers','\fontsize{14}NMT(Without smooth)','\fontsize{14}NMT(Smoothed)','\fontsize{14}DCT-PLS','\fontsize{14}VFC','\fontsize{14}MVFC');
 set(gca,'Yscale','log'); set(gca,'fontsize',12)
 set(H,'position',[ 100 100 800 500]);
 

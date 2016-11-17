@@ -47,7 +47,7 @@ Vx(17:20,17:20) = U_max; Vy(17:20,17:20)=-0.5*U_max; OutlierIndex_Truth(17:20,17
 % Vy(I(1:n)) = NaN; % adding missing value
 
 %% Post-Processing by 5 methods
-%- Normalised Median Test
+%- Normalised Median Test/ Conventional method
 noiseLevel = 0.1; threshold =2;  windowSize = 5; ReplaceFlag = true;
 smoothflag = true; 
 [Vx_CON,Vy_CON,OutlierIndex_CON]=convl2(Vx,Vy,noiseLevel, threshold,smoothflag,windowSize,ReplaceFlag);% The Conventional method proposed by Jerry Westerweel
@@ -126,7 +126,7 @@ xlim([-0.05,1.05]);ylim([-0.25,1.05]);box on;set(gca,'ytick',[]);set(gca,'xtick'
 
 % corrupted flow and processed flow
 figure;scrsz = get(0,'ScreenSize');set(gcf,'Position',scrsz);
-subplot(2,2,1);quiver(x,y,Vx_CON,Vy_CON);title('NMT method');
+subplot(2,2,1);quiver(x,y,Vx_CON,Vy_CON);title('NMT/CON method');
 text(0,-0.1,str0);xlim([-0.05,1.05]);ylim([-0.25,1.05]);box on;set(gca,'ytick',[]);set(gca,'xtick',[]);
 
 subplot(2,2,2);quiver(x,y,Vx_DCT,Vy_DCT);title('PPPIV/(DCT-PLS)');
@@ -149,7 +149,7 @@ plot(w,(turb_energy_spectrum(Vx_CON,Vy_CON)+1),'--d','LineWidth',2,'Color',[0.85
 plot(w,(turb_energy_spectrum(Vx_DCT,Vy_DCT)+1),'--h','LineWidth',2,'Color',[0.93,0.69,0.13], 'MarkerSize',6, 'MarkerEdgeColor','k', 'MarkerFaceColor',[0.93,0.69,0.13]);
 plot(w,(turb_energy_spectrum(Vx_VFC,Vy_VFC)+1),'--s','LineWidth',2,'Color',[0.47,0.67,0.19] , 'MarkerSize',6, 'MarkerEdgeColor','k', 'MarkerFaceColor',[0.47,0.67,0.19]);
 plot(w,(turb_energy_spectrum(Vx_MVFC,Vy_MVFC)+1),'-o','LineWidth',2,'Color',[0.49,0.18,0.56], 'MarkerSize',8, 'MarkerEdgeColor','k', 'MarkerFaceColor',[0.49,0.18,0.56]);
-H11 = legend('\fontsize{14}Original Flow','\fontsize{14}Flow with Outliers','\fontsize{14}CON(Smoothed)','\fontsize{14}DCT-PLS','\fontsize{14}VFC','\fontsize{14}MVFC');
+H11 = legend('\fontsize{14}Original Flow','\fontsize{14}Flow with Outliers','\fontsize{14}NMT/CON(Smoothed)','\fontsize{14}DCT-PLS','\fontsize{14}VFC','\fontsize{14}MVFC');
 set(gca,'Yscale','log'); set(gca,'fontsize',12)
 set(H,'position',[ 100 100 800 500]);
 

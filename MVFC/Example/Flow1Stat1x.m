@@ -12,10 +12,10 @@
 
 % Note that, this procedure is very time comsuming, about 10 hours for the
 % 50 Mento-Calo simulations.
-function Flow1Stat1()
+function Flow1Stat1x()% This is a copy backup of FlowStat1.m
 %% Initialization
 close all; clear; rng('default')
-MonteNum = 50;% set 50 when run the fig in paper
+MonteNum = 2;% set 100 when run the fig in paper
 [L,H] = meshgrid(1:1:20,1:0.5:12);
 sigma= 0.01; % 0.01: standard deviation of Gaussian noise
 outlierRatio = 0.1;

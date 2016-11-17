@@ -14,7 +14,7 @@
 function Flow1Stat4()
 %% Initialization
 clear; close all; rng('default')
-MonteNum =100;% set 100 when run the fig in paper
+MonteNum =2;% set 100 when run the fig in paper
 sigma= 0.01;%%0.1,0.01: standard deviation of Gaussian noise
 outlierRatio = 0.05;% 5 percent
 Nc = 1:3:16
@@ -77,7 +77,7 @@ for i = 1:Ns
     fprintf('Undetected   Number:%f(NMT);%f(VTM);%f(FADV);%f(VFC);%f(MVFC)\n',udp_CON(i),udp_VTM(i),udp_FADV(i),udp_VFCS(i),udp_MVFC(i));
 end
 
-save flow1stat4Results
+% save flow1stat4Results
 
 
 

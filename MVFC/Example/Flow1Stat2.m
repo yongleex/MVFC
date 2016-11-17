@@ -13,7 +13,7 @@
 function Flow1Stat2()
 %% Initialization
 close all; clear; rng('default')
-MonteNum = 20;% set 100 when run the fig in paper
+MonteNum = 2;% set 100 when run the fig in paper
 sigma= 0.01; % 0.01: standard deviation of Gaussian noise
 outlierRatio = [0:0.025:0.6];
 Ns = max(size(outlierRatio));
@@ -112,7 +112,7 @@ plot(outlierRatio*100,MEAN_NRMSE_VTM,'--p','LineWidth',2,'Color',[0.64,0.08,0.18
 plot(outlierRatio*100,MEAN_NRMSE_VFCS,'--s','LineWidth',2,'Color',[0.47,0.67,0.19] , 'MarkerSize',6, 'MarkerEdgeColor','k', 'MarkerFaceColor',[0.47,0.67,0.19]);
 plot(outlierRatio*100,MEAN_NRMSE_MVFC,'-o','LineWidth',2,'Color',[0.49,0.18,0.56], 'MarkerSize',8, 'MarkerEdgeColor','k', 'MarkerFaceColor',[0.49,0.18,0.56]);
 
-H11=legend('\fontsize{14}NTM','\fontsize{14}DCT-PLS','\fontsize{14}VTM','\fontsize{14}VFC','\fontsize{14}MVFC',0);
+H11=legend('\fontsize{14}NMT','\fontsize{14}DCT-PLS','\fontsize{14}VTM','\fontsize{14}VFC','\fontsize{14}MVFC',0);
 xlabel('\fontsize{14}Percentage of scattered outliers:% ');
 ylabel('\fontsize{14}NRMSE ');set(gca,'fontsize',12); set(H1,'position',[100 100 800 400]);
 
@@ -125,7 +125,7 @@ plot(outlierRatio*100,MEAN_SSIM_VTM,'--p','LineWidth',2,'Color',[0.64,0.08,0.18]
 plot(outlierRatio*100,MEAN_SSIM_VFCS,'--s','LineWidth',2,'Color',[0.47,0.67,0.19] , 'MarkerSize',6, 'MarkerEdgeColor','k', 'MarkerFaceColor',[0.47,0.67,0.19]);
 plot(outlierRatio*100,MEAN_SSIM_MVFC,'-o','LineWidth',2,'Color',[0.49,0.18,0.56], 'MarkerSize',8, 'MarkerEdgeColor','k', 'MarkerFaceColor',[0.49,0.18,0.56]);
 
-H22=legend('\fontsize{14}CON','\fontsize{14}DCT-PLS','\fontsize{14}VTM','\fontsize{14}VFC','\fontsize{14}MVFC',0);
+H22=legend('\fontsize{14}NMT','\fontsize{14}DCT-PLS','\fontsize{14}VTM','\fontsize{14}VFC','\fontsize{14}MVFC',0);
 xlabel('\fontsize{14}Percentage of scattered outliers:% ');
 ylabel('\fontsize{14}SSIM ');set(gca,'fontsize',12); set(H2,'position',[200 200 800 400]);
 

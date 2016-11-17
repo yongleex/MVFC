@@ -15,7 +15,7 @@
 function Flow1Stat1()
 %% Initialization
 close all; clear; rng('default')
-MonteNum = 2;% set 50 when run the fig in paper
+MonteNum = 2;% set 100 when run the fig in paper
 % about 20 min for 2 MonteNum\
 
 [L,H] = meshgrid(1:1:20,1:0.5:12);

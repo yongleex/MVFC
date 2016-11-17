@@ -15,7 +15,7 @@
 function Flow1Stat5()
 %% Initialization
 close all; clear; rng('default')
-MonteNum =100;% set 100 when run the fig in paper
+MonteNum =2;% set 100 when run the fig in paper
 sigma= 0.01;  %0.1,0.01: standard deviation of Gaussian noise
 outlierRatio = 0.1;
 Nv = 2:7
@@ -74,11 +74,11 @@ udp_CON = mean(udp_con,1);udp_VTM = mean(udp_vtm,1);udp_FADV = mean(udp_fadv,1);
 odp_CON = mean(odp_con,1);odp_VTM = mean(odp_vtm,1);odp_FADV = mean(odp_fadv,1);odp_VFCS = mean(odp_vfcs,1);odp_MVFC = mean(odp_mvfc,1);
 for i = 1:Ns
     fprintf('Vortex cell:%d*%d\n',Nv(i));
-    fprintf('Overdetected Number:\n%f(CON);%f(VTM);%f(FADV);%f(VFC);%f(MVFC)\n',odp_CON(i),odp_VTM(i),odp_FADV(i),odp_VFCS(i),odp_MVFC(i));
-    fprintf('Undetected   Number:\n%f(CON);%f(VTM);%f(FADV);%f(VFC);%f(MVFC)\n',udp_CON(i),udp_VTM(i),udp_FADV(i),udp_VFCS(i),udp_MVFC(i));
+    fprintf('Overdetected Number:\n%f(NMT);%f(VTM);%f(FADV);%f(VFC);%f(MVFC)\n',odp_CON(i),odp_VTM(i),odp_FADV(i),odp_VFCS(i),odp_MVFC(i));
+    fprintf('Undetected   Number:\n%f(NMT);%f(VTM);%f(FADV);%f(VFC);%f(MVFC)\n',udp_CON(i),udp_VTM(i),udp_FADV(i),udp_VFCS(i),udp_MVFC(i));
 end
 
-save flow1stat5Results
+% save flow1stat5Results
 
 
 %% Assessment of the methods on Outlier Index

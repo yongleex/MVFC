@@ -2,7 +2,7 @@ This is the implementation package of MVFC method for the paper "Outlier detecti
 We submit it to the Journal "Measurement Science & Technology" in september 2016;
 
 *********************************************************************************
-Software Requirement: We successfully tested this package in Matlab 2014a and Matlab 2016a, and therefore we recommend you use the latest version of Matlab.
+Software Requirement: We successfully tested this package in Matlab 2015b and Matlab 2016a, and therefore we recommend you use the latest version of Matlab.
 
 Installation: 
             1.Unzip the files, and run "Initialization.m" to add the paths to the Matlab temporarily.

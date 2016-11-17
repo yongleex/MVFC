@@ -112,7 +112,7 @@ plot(sigma,MEAN_NRMSE_VTM,'--p','LineWidth',2,'Color',[0.64,0.08,0.18], 'MarkerS
 plot(sigma,MEAN_NRMSE_VFCS,'--s','LineWidth',2,'Color',[0.47,0.67,0.19] , 'MarkerSize',6, 'MarkerEdgeColor','k', 'MarkerFaceColor',[0.47,0.67,0.19]);
 plot(sigma,MEAN_NRMSE_MVFC,'-o','LineWidth',2,'Color',[0.49,0.18,0.56], 'MarkerSize',8, 'MarkerEdgeColor','k', 'MarkerFaceColor',[0.49,0.18,0.56]);
 
-H11=legend('\fontsize{14}NTM','\fontsize{14}DCT-PLS','\fontsize{14}VTM','\fontsize{14}VFC','\fontsize{14}MVFC',0);
+H11=legend('\fontsize{14}NMT','\fontsize{14}DCT-PLS','\fontsize{14}VTM','\fontsize{14}VFC','\fontsize{14}MVFC',0);
 xlabel('\fontsize{14}Maximal noise standard deviation:/V_{max} ');
 ylabel('\fontsize{14}NRMSE ');set(gca,'fontsize',12); set(H1,'position',[100 100 800 400]);
 
@@ -125,7 +125,7 @@ plot(sigma,MEAN_SSIM_VTM,'--p','LineWidth',2,'Color',[0.64,0.08,0.18], 'MarkerSi
 plot(sigma,MEAN_SSIM_VFCS,'--s','LineWidth',2,'Color',[0.47,0.67,0.19] , 'MarkerSize',6, 'MarkerEdgeColor','k', 'MarkerFaceColor',[0.47,0.67,0.19]);
 plot(sigma,MEAN_SSIM_MVFC,'-o','LineWidth',2,'Color',[0.49,0.18,0.56], 'MarkerSize',8, 'MarkerEdgeColor','k', 'MarkerFaceColor',[0.49,0.18,0.56]);
 
-H22=legend('\fontsize{14}CON','\fontsize{14}DCT-PLS','\fontsize{14}VTM','\fontsize{14}VFC','\fontsize{14}MVFC',0);
+H22=legend('\fontsize{14}NMT','\fontsize{14}DCT-PLS','\fontsize{14}VTM','\fontsize{14}VFC','\fontsize{14}MVFC',0);
 xlabel('\fontsize{14}Maximal noise standard deviation:/V_{max}');
 ylabel('\fontsize{14}SSIM ');set(gca,'fontsize',12); set(H2,'position',[200 200 800 400]);
 

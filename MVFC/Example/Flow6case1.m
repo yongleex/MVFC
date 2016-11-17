@@ -14,28 +14,27 @@ clear;close all;
 U_max = 10;
 N = 2;
 [x,y] = meshgrid(linspace(0,1,32));
-Vx = U_max*x.^2;
-Vy = -2*U_max*x.*y;
-Omiga = 2*U_max*y;
-Amp = U_max*x.*sqrt(x.^2+4*y.^2)+1;
+Vx = U_max*cos(N*pi*x+pi/2).*cos(N*pi*y);
+Vy = U_max*sin(N*pi*x+pi/2).*sin(N*pi*y);
 u=Vx;v=Vy;
 
 %%   Corrupt the original flow
-sigma = 0.05;%standard deviation of the corrupted  Gaussiannoise, the value is 0.01*Vmax
-OutRatio = 0.050;% Outlier ratio
-randn('state',100);    Vx = Vx + U_max.*(sigma).*randn(size(Vx)); % adding Gaussian noise
-randn('state',150);    Vy = Vy + 0.25*U_max.*(sigma).*randn(size(Vx)); % adding Gaussian noise
+sigma = 0.02;%standard deviation of the corrupted  Gaussiannoise, the value is 0.01*Vmax
+OutRatio = 0.10;% Outlier ratio
+randn('state',100);    Vx = Vx + U_max*(sigma)*randn(size(Vx)); % adding Gaussian noise
+randn('state',150);    Vy = Vy + U_max*(sigma)*randn(size(Vx)); % adding Gaussian noise
 
 OutlierIndex_Truth = ones(size(Vx));
 rand('state',200);    I = randperm(numel(Vx));
 n = round(OutRatio*numel(Vx));% the outlier ratio =0.50
-rand('state',200);    Vx(I(1:n)) = (rand(n,1)-0.5)*4*U_max; % adding outliers
-rand('state',300);    Vy(I(1:n)) = (rand(n,1)-0.5)*4*U_max; % adding outliers
+rand('state',200);    Vx(I(1:n)) =Vx(I(1:n))+ (rand(1,n)-0.5)*2*U_max; % adding outliers
+rand('state',300);    Vy(I(1:n)) =Vy(I(1:n))+ (rand(1,n)-0.5)*2*U_max; % adding outliers
 OutlierIndex_Truth(I(1:n)) = 0;
 
 % A cluster of outliers
-Vx(17:20,17:20) = U_max; Vy(17:20,17:20)=0.0*U_max; OutlierIndex_Truth(17:20,17:20) = 0;
+Vx(17:20,17:20) = U_max; Vy(17:20,17:20)=-0.5*U_max; OutlierIndex_Truth(17:20,17:20) = 0;
 
+u = u*100; Vx = Vx*100;
 %     randn('state',600);    I = randperm(numel(Vx));
 %     n = round(2*numel(Vx)/10);
 %     Vx(I(1:n)) = NaN; % adding missing value
@@ -60,7 +59,7 @@ OutlierIndex_FADV     = fadv(Vx,Vy,10);   % Flow-adaptive Data Validation method
 VecFld = VFC(Vx,Vy,1);  %Our VFC Method
 Vx_VFC = VecFld.V(:,:,1);Vy_VFC = VecFld.V(:,:,2);    OutlierIndex_VFC = VecFld.VFCIndex;% Output
 
-VecFld = MVFC(Vx,Vy);  %Our MMVFC Method
+VecFld = MVFC(Vx,Vy,0.00003);  %Our MMVFC Method
 Vx_MVFC = VecFld.V(:,:,1);Vy_MVFC = VecFld.V(:,:,2);    OutlierIndex_MVFC = VecFld.Index;% Output
 
 %% Assessment of the methods on Outlier Index
@@ -71,9 +70,9 @@ UO_OutierCount = [  L_udc(OutlierIndex_Truth,OutlierIndex_CON),L_odc(OutlierInde
     L_udc(OutlierIndex_Truth,OutlierIndex_MVFC),L_odc(OutlierIndex_Truth,OutlierIndex_MVFC);
     ];
 
-fprintf('Overdetected Number:%d(CON);%d(VTM);%d(FADV);%d(VFC);%d(MVFC)\n',L_odc(OutlierIndex_Truth,OutlierIndex_CON),...
+fprintf('Overdetected Number:%d(NMT);%d(VTM);%d(FADV);%d(VFC);%d(MVFC)\n',L_odc(OutlierIndex_Truth,OutlierIndex_CON),...
     L_odc(OutlierIndex_Truth,OutlierIndex_VTMedian),L_odc(OutlierIndex_Truth,OutlierIndex_FADV),L_odc(OutlierIndex_Truth,OutlierIndex_VFC),L_odc(OutlierIndex_Truth,OutlierIndex_MVFC));
-fprintf('Undetected   Number:%d(CON);%d(VTM);%d(FADV);%d(VFC);%d(MVFC)\n',L_udc(OutlierIndex_Truth,OutlierIndex_CON),...
+fprintf('Undetected   Number:%d(NMT);%d(VTM);%d(FADV);%d(VFC);%d(MVFC)\n',L_udc(OutlierIndex_Truth,OutlierIndex_CON),...
     L_udc(OutlierIndex_Truth,OutlierIndex_VTMedian),L_udc(OutlierIndex_Truth,OutlierIndex_FADV),L_udc(OutlierIndex_Truth,OutlierIndex_VFC),L_udc(OutlierIndex_Truth,OutlierIndex_MVFC));
 
 
@@ -113,7 +112,7 @@ xlim([-0.05,1.05]);ylim([-0.25,1.05]);box on;set(gca,'ytick',[]);set(gca,'xtick'
 
 % corrupted flow and processed flow
 figure;scrsz = get(0,'ScreenSize');set(gcf,'Position',scrsz);
-subplot(2,2,1);quiver(x,y,Vx_CON,Vy_CON);title('Conventional method');
+subplot(2,2,1);quiver(x,y,Vx_CON,Vy_CON);title('NMT/CON');
 text(0,-0.1,str0);xlim([-0.05,1.05]);ylim([-0.25,1.05]);box on;set(gca,'ytick',[]);set(gca,'xtick',[]);
 
 subplot(2,2,2);quiver(x,y,Vx_DCT,Vy_DCT);title('PPPIV/(DCT-PLS)');
@@ -137,13 +136,15 @@ plot(w,(turb_energy_spectrum(Vx_DCT,Vy_DCT)+1),'--s','LineWidth',2,'Color',[0.49
 plot(w,(turb_energy_spectrum(Vx_VFC,Vy_VFC)+1),'-o','LineWidth',2,'Color',[0.47,0.67,0.19] , 'MarkerSize',8, 'MarkerEdgeColor','k', 'MarkerFaceColor',[0.47,0.67,0.19]);%VFC
 plot(w,(turb_energy_spectrum(Vx_MVFC,Vy_MVFC)+1),'--h','LineWidth',2,'Color',[0.93,0.69,0.13], 'MarkerSize',6, 'MarkerEdgeColor','k', 'MarkerFaceColor',[0.93,0.69,0.13]);%MVFC
 
-H11 = legend('\fontsize{14}Original Flow','\fontsize{14}Flow with Outliers','\fontsize{14}CON(Smoothed)','\fontsize{14}DCT-PLS','\fontsize{14}VFC','\fontsize{14}MVFC');
+H11 = legend('\fontsize{14}Original Flow','\fontsize{14}Flow with Outliers','\fontsize{14}NMT(Smoothed)','\fontsize{14}DCT-PLS','\fontsize{14}VFC','\fontsize{14}MVFC');
 set(gca,'Yscale','log'); set(gca,'fontsize',12)
 set(H,'position',[ 100 100 800 500]);
 
 %% Show the results of un-detected and over-detected outlier count
 L_drawBar(UO_OutierCount);
-
+figure; spy(~OutlierIndex_Truth);title('truth')
+figure; spy(~OutlierIndex_VFC);title('VFC')
+figure; spy(~OutlierIndex_MVFC);title('MVFC')
 
 %% output for origin plot
 Fig1a = [x(:),y(:),x(:)+0.02*u(:),y(:)+0.02*v(:)];
@@ -153,12 +154,12 @@ Fig2c = [x(:),y(:),x(:)+0.02*Vx_DCT(:),y(:)+0.02*Vy_DCT(:)];
 Fig2d = [x(:),y(:),x(:)+0.02*Vx_VFC(:),y(:)+0.02*Vy_VFC(:)];
 
 
-%     Ã¿ÖÖ·½·¨½á¹ûµÄ±íÊ¾
-% Original Flow ÊµÏßÉÏÈý½Ç ,'-^','LineWidth',2,'Color',[0.0 0.0 1.0], 'MarkerSize',6, 'MarkerEdgeColor','k', 'MarkerFaceColor',[0.0 0.0 1.0]);%ori flow
-% ÔëÉùÁ÷¶¯      ÐéÏßÏÂÈý½Ç ,'--v','LineWidth',2,'Color',[0,0.45,0.74], 'MarkerSize',6, 'MarkerEdgeColor','k', 'MarkerFaceColor',[0,0.45,0.74]);%corrupted flow
-% CON           ÐéÏßÁâÐÎ   ,'--d','LineWidth',2,'Color',[0.85,0.33,0.1], 'MarkerSize',6, 'MarkerEdgeColor','k', 'MarkerFaceColor',[0.85,0.33,0.1]);%con1
-%               ÐéÏßÁù±ßÐÎ ,'--h','LineWidth',2,'Color',[0.93,0.69,0.13], 'MarkerSize',6, 'MarkerEdgeColor','k', 'MarkerFaceColor',[0.93,0.69,0.13]);%con2
-% DCT-PLS       ÐéÏßÕý·½ÐÎ ,'--s','LineWidth',2,'Color',[0.49,0.18,0.56], 'MarkerSize',6, 'MarkerEdgeColor','k', 'MarkerFaceColor',[0.49,0.18,0.56]);%DCT-PLS flow
-% VFC           ÊµÏßÔ²ÐÎ   ,'-o','LineWidth',2,'Color',[0.47,0.67,0.19] , 'MarkerSize',8, 'MarkerEdgeColor','k', 'MarkerFaceColor',[0.47,0.67,0.19] );%Ours flow
-% FADV          ÐéÏß+ºÅ    ,'--+','LineWidth',2,'Color',[0.3,0.75,0.93], 'MarkerSize',6, 'MarkerEdgeColor','k', 'MarkerFaceColor',[0.3,0.75,0.93]);%FADV
-% VTM           ÐéÏßÎå±ßÐÎ ,'--p','LineWidth',2,'Color',[0.64,0.08,0.18], 'MarkerSize',6, 'MarkerEdgeColor','k', 'MarkerFaceColor',[0.64,0.08,0.18]);%VTM
+%     Ã¿ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä±ï¿½Ê¾
+% Original Flow Êµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ,'-^','LineWidth',2,'Color',[0.0 0.0 1.0], 'MarkerSize',6, 'MarkerEdgeColor','k', 'MarkerFaceColor',[0.0 0.0 1.0]);%ori flow
+% ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½      ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ,'--v','LineWidth',2,'Color',[0,0.45,0.74], 'MarkerSize',6, 'MarkerEdgeColor','k', 'MarkerFaceColor',[0,0.45,0.74]);%corrupted flow
+% CON           ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½   ,'--d','LineWidth',2,'Color',[0.85,0.33,0.1], 'MarkerSize',6, 'MarkerEdgeColor','k', 'MarkerFaceColor',[0.85,0.33,0.1]);%con1
+%               ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ,'--h','LineWidth',2,'Color',[0.93,0.69,0.13], 'MarkerSize',6, 'MarkerEdgeColor','k', 'MarkerFaceColor',[0.93,0.69,0.13]);%con2
+% DCT-PLS       ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ,'--s','LineWidth',2,'Color',[0.49,0.18,0.56], 'MarkerSize',6, 'MarkerEdgeColor','k', 'MarkerFaceColor',[0.49,0.18,0.56]);%DCT-PLS flow
+% VFC           Êµï¿½ï¿½Ô²ï¿½ï¿½   ,'-o','LineWidth',2,'Color',[0.47,0.67,0.19] , 'MarkerSize',8, 'MarkerEdgeColor','k', 'MarkerFaceColor',[0.47,0.67,0.19] );%Ours flow
+% FADV          ï¿½ï¿½ï¿½ï¿½+ï¿½ï¿½    ,'--+','LineWidth',2,'Color',[0.3,0.75,0.93], 'MarkerSize',6, 'MarkerEdgeColor','k', 'MarkerFaceColor',[0.3,0.75,0.93]);%FADV
+% VTM           ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ,'--p','LineWidth',2,'Color',[0.64,0.08,0.18], 'MarkerSize',6, 'MarkerEdgeColor','k', 'MarkerFaceColor',[0.64,0.08,0.18]);%VTM

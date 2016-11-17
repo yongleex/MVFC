@@ -66,9 +66,9 @@ UO_OutierCount = [  L_udc(OutlierIndex_Truth,OutlierIndex_CON),L_odc(OutlierInde
     L_udc(OutlierIndex_Truth,OutlierIndex_MVFC),L_odc(OutlierIndex_Truth,OutlierIndex_MVFC);];
 L_drawBar(UO_OutierCount);
 
-fprintf('Overdetected Number:%d(CON);%d(VTM);%d(FADV);%d(VFC);%d(VMFC)\n',L_odc(OutlierIndex_Truth,OutlierIndex_CON),...
+fprintf('Overdetected Number:%d(NMT/CON);%d(VTM);%d(FADV);%d(VFC);%d(VMFC)\n',L_odc(OutlierIndex_Truth,OutlierIndex_CON),...
     L_odc(OutlierIndex_Truth,OutlierIndex_VTMedian),L_odc(OutlierIndex_Truth,OutlierIndex_FADV),L_odc(OutlierIndex_Truth,OutlierIndex_VFC),L_odc(OutlierIndex_Truth,OutlierIndex_MVFC));
-fprintf('Undetected   Number:%d(CON);%d(VTM);%d(FADV);%d(VFC);%d(MVFC)\n',L_udc(OutlierIndex_Truth,OutlierIndex_CON),...
+fprintf('Undetected   Number:%d(NMT/CON);%d(VTM);%d(FADV);%d(VFC);%d(MVFC)\n',L_udc(OutlierIndex_Truth,OutlierIndex_CON),...
     L_udc(OutlierIndex_Truth,OutlierIndex_VTMedian),L_udc(OutlierIndex_Truth,OutlierIndex_FADV),L_udc(OutlierIndex_Truth,OutlierIndex_VFC),L_odc(OutlierIndex_Truth,OutlierIndex_MVFC));
 
 
@@ -107,16 +107,16 @@ text(-1,-1.2,str1);text(0,-1.1,['Noist STD:',num2str(sigma),'.Outlier Ratio:',nu
 xlim([-1.05,1.05]);ylim([-1.25,1.05]);box on;set(gca,'ytick',[]);set(gca,'xtick',[]);
 
 figure;scrsz = get(0,'ScreenSize');set(gcf,'Position',scrsz);
-subplot(2,2,1);quiver(x,y,Vx_CON,Vy_CON);title('Conventional method');axis equal
+subplot(2,2,1);quiver(x,y,Vx_CON,Vy_CON);title('NMT/CON');axis equal
 text(-1,-1.1,str0);xlim([-1.05,1.05]);ylim([-1.25,1.05]);box on;set(gca,'ytick',[]);set(gca,'xtick',[]);
 % subplot(2,2,1);quiver(x,y,Vx,Vy);title('Original flow corrupted with noise and outliers');axis equal
 % text(-1,-1.2,str1);text(0,-1.1,['Noist STD:',num2str(sigma),'.Outlier Ratio:',num2str(OutRatio)]);
 % xlim([-1.05,1.05]);ylim([-1.25,1.05]);box on;set(gca,'ytick',[]);set(gca,'xtick',[]);
 subplot(2,2,2);quiver(x,y,Vx_DCT,Vy_DCT);title('DCT-PLS');axis equal
 text(-1,-1.1,str2);xlim([-1.05,1.05]);ylim([-1.25,1.05]);box on;set(gca,'ytick',[]);set(gca,'xtick',[]);
-subplot(2,2,3);quiver(x,y,Vx_VFC,Vy_VFC);title('Ours');axis equal
+subplot(2,2,3);quiver(x,y,Vx_VFC,Vy_VFC);title('VFC');axis equal
 text(-1,-1.1,str3);xlim([-1.05,1.05]);ylim([-1.25,1.05]);box on;set(gca,'ytick',[]);set(gca,'xtick',[]);
-subplot(2,2,4);quiver(x,y,Vx_MVFC,Vy_MVFC);title('Ours');axis equal
+subplot(2,2,4);quiver(x,y,Vx_MVFC,Vy_MVFC);title('MVFC');axis equal
 text(-1,-1.1,str3);xlim([-1.05,1.05]);ylim([-1.25,1.05]);box on;set(gca,'ytick',[]);set(gca,'xtick',[]);
 
 % the turbulent energy specturm
@@ -131,7 +131,7 @@ plot(w,(turb_energy_spectrum(Vx_DCT,Vy_DCT)+1),'--s','LineWidth',2,'Color',[0.85
 plot(w,(turb_energy_spectrum(Vx_VFC,Vy_VFC)+1),'-o','LineWidth',2,'Color',[0.0 0.5 0], 'MarkerSize',8, 'MarkerEdgeColor','k', 'MarkerFaceColor',[0.0 0.5 0]);%Ours flow
 plot(w,(turb_energy_spectrum(Vx_MVFC,Vy_MVFC)+1),'-h','LineWidth',2,'Color',[0.93,0.69,0.13], 'MarkerSize',6, 'MarkerEdgeColor','k', 'MarkerFaceColor',[0.93,0.69,0.13]);%conventional methods without smoothness
 
-H11 = legend('\fontsize{14}Original Flow','\fontsize{14}Flow with Outliers','\fontsize{14}CON','\fontsize{14}DCT-PLS','\fontsize{14}VFC','\fontsize{14}MVFC',0);
+H11 = legend('\fontsize{14}Original Flow','\fontsize{14}Flow with Outliers','\fontsize{14}NMT/CON','\fontsize{14}DCT-PLS','\fontsize{14}VFC','\fontsize{14}MVFC',0);
 
 set(gca,'Yscale','log'); set(gca,'fontsize',12)
 set(H,'position',[ 100 100 800 500]);
